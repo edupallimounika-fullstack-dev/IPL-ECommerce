@@ -1,0 +1,99 @@
+<h2>My Orders</h2>
+
+
+@if (isLoading()) {
+
+  <p>
+    Loading orders...
+  </p>
+
+}
+
+
+@if (errorMessage()) {
+
+  <p>
+    {{ errorMessage() }}
+  </p>
+
+}
+
+
+@if (!isLoading() && !errorMessage()) {
+
+  @if (orders().length === 0) {
+
+    <p>
+      You have not placed any orders yet.
+    </p>
+
+  } @else {
+
+    @for (
+      order of orders();
+      track order.id
+    ) {
+
+      <div>
+
+        <h3>
+          Order #{{ order.id }}
+        </h3>
+
+
+        <p>
+          <strong>
+            Order Date:
+          </strong>
+
+          {{ order.orderDate | date:'medium' }}
+        </p>
+
+
+        <p>
+          <strong>
+            Status:
+          </strong>
+
+          {{ order.status }}
+        </p>
+
+
+        <p>
+          <strong>
+            Items:
+          </strong>
+
+          {{ order.totalItems }}
+        </p>
+
+
+        <p>
+          <strong>
+            Total:
+          </strong>
+
+          ₹{{ order.totalAmount }}
+        </p>
+
+
+        <a
+          [routerLink]="[
+            '/orders',
+            order.id
+          ]">
+
+          View Order Details
+
+        </a>
+
+
+        <hr />
+
+      </div>
+
+    }
+
+  }
+
+}

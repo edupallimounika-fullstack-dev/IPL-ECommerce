@@ -1,0 +1,58 @@
+<h2>Checkout</h2>
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="checkout()">
+
+  <label for="shippingAddress">
+    Shipping Address
+  </label>
+
+  <br />
+
+  <textarea
+    id="shippingAddress"
+    rows="5"
+    cols="50"
+    formControlName="shippingAddress">
+  </textarea>
+
+  @if (
+    form.controls.shippingAddress.touched &&
+    form.controls.shippingAddress.invalid
+  ) {
+
+    <p>
+      Shipping address is required.
+    </p>
+
+  }
+
+  <br />
+  <br />
+
+  @if (errorMessage()) {
+
+    <p>
+      {{ errorMessage() }}
+    </p>
+
+  }
+
+  <button
+    type="submit"
+    [disabled]="isSubmitting()">
+
+    @if (isSubmitting()) {
+
+      Placing Order...
+
+    } @else {
+
+      Place Order
+
+    }
+
+  </button>
+
+</form>

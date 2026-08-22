@@ -1,0 +1,200 @@
+<h2>Product Details</h2>
+
+
+<!-- Loading -->
+
+@if (isLoading()) {
+
+  <p>
+    Loading product...
+  </p>
+
+}
+
+
+<!-- Error -->
+
+@if (errorMessage()) {
+
+  <p>
+    {{ errorMessage() }}
+  </p>
+
+}
+
+
+<!-- Product -->
+
+@if (product(); as currentProduct) {
+
+  <div>
+
+    <!-- Product Image -->
+
+    @if (currentProduct.imageUrl) {
+
+      <img
+        [src]="productService.getImageUrl(currentProduct.imageUrl)"
+        [alt]="currentProduct.name"
+        width="250"
+      />
+
+    }
+
+
+    <!-- Product Name -->
+
+    <h2>
+      {{ currentProduct.name }}
+    </h2>
+
+
+    <!-- Franchise -->
+
+    <p>
+      <strong>
+        Franchise:
+      </strong>
+
+      {{ currentProduct.franchiseName }}
+    </p>
+
+
+    <!-- Product Type -->
+
+    <p>
+      <strong>
+        Type:
+      </strong>
+
+      {{ currentProduct.productType }}
+    </p>
+
+
+    <!-- Description -->
+
+    <p>
+      <strong>
+        Description:
+      </strong>
+
+      {{ currentProduct.description }}
+    </p>
+
+
+    <!-- Price -->
+
+    <p>
+      <strong>
+        Price:
+      </strong>
+
+      ₹{{ currentProduct.price }}
+    </p>
+
+
+    <!-- Stock -->
+
+    <p>
+      <strong>
+        Available Stock:
+      </strong>
+
+      {{ currentProduct.stockQuantity }}
+    </p>
+
+
+    <!-- Quantity -->
+
+    <div>
+
+      <strong>
+        Quantity:
+      </strong>
+
+      <button
+        type="button"
+        (click)="decreaseQuantity()"
+        [disabled]="quantity() <= 1">
+
+        -
+
+      </button>
+
+
+      <span>
+        {{ quantity() }}
+      </span>
+
+
+      <button
+        type="button"
+        (click)="increaseQuantity()"
+        [disabled]="
+          quantity() >=
+          currentProduct.stockQuantity
+        ">
+
+        +
+
+      </button>
+
+    </div>
+
+
+    <br />
+
+
+    <!-- Add To Cart -->
+
+    <button
+      type="button"
+      (click)="addToCart()"
+      [disabled]="isAddingToCart()">
+
+      @if (isAddingToCart()) {
+
+        Adding...
+
+      } @else {
+
+        Add to Cart
+
+      }
+
+    </button>
+
+
+    <!-- Cart Success -->
+
+    @if (cartMessage()) {
+
+      <p>
+        {{ cartMessage() }}
+      </p>
+
+    }
+
+
+    <!-- Cart Error -->
+
+    @if (cartError()) {
+
+      <p>
+        {{ cartError() }}
+      </p>
+
+    }
+
+
+    <br />
+    <br />
+
+
+    <a routerLink="/products">
+      ← Back to Products
+    </a>
+
+  </div>
+
+}

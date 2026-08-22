@@ -1,0 +1,190 @@
+<div class="auth-container">
+
+  <div class="auth-card">
+
+    <h2>
+      Create Account
+    </h2>
+
+    <p>
+      Join IPL Store and start shopping.
+    </p>
+
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="register()">
+
+
+      <!-- First Name -->
+
+      <div class="form-group">
+
+        <label for="firstName">
+          First Name
+        </label>
+
+        <input
+          id="firstName"
+          type="text"
+          formControlName="firstName"
+          placeholder="Enter your first name"
+        />
+
+        @if (
+          form.controls.firstName.touched &&
+          form.controls.firstName.invalid
+        ) {
+
+          <small class="validation-error">
+            First name is required.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Last Name -->
+
+      <div class="form-group">
+
+        <label for="lastName">
+          Last Name
+        </label>
+
+        <input
+          id="lastName"
+          type="text"
+          formControlName="lastName"
+          placeholder="Enter your last name"
+        />
+
+        @if (
+          form.controls.lastName.touched &&
+          form.controls.lastName.invalid
+        ) {
+
+          <small class="validation-error">
+            Last name is required.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Email -->
+
+      <div class="form-group">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
+
+        @if (
+          form.controls.email.touched &&
+          form.controls.email.invalid
+        ) {
+
+          <small class="validation-error">
+            Please enter a valid email.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Password -->
+
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+
+        @if (
+          form.controls.password.touched &&
+          form.controls.password.invalid
+        ) {
+
+          <small class="validation-error">
+            Password must be at least 6 characters.
+          </small>
+
+        }
+
+      </div>
+
+
+      <!-- Error -->
+
+      @if (errorMessage()) {
+
+        <div class="error-message">
+          {{ errorMessage() }}
+        </div>
+
+      }
+
+
+      <!-- Success -->
+
+      @if (successMessage()) {
+
+        <div class="success-message">
+          {{ successMessage() }}
+        </div>
+
+      }
+
+
+      <!-- Register -->
+
+      <button
+        type="submit"
+        [disabled]="isSubmitting()">
+
+        @if (isSubmitting()) {
+
+          Creating Account...
+
+        } @else {
+
+          Register
+
+        }
+
+      </button>
+
+    </form>
+
+
+    <div class="register-link">
+
+      Already have an account?
+
+      <a routerLink="/login">
+        Login
+      </a>
+
+    </div>
+
+  </div>
+
+</div>

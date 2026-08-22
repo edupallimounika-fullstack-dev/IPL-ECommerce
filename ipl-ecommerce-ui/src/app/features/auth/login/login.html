@@ -1,0 +1,98 @@
+<h2>Login</h2>
+
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="login()">
+
+  <div>
+
+    <label for="email">
+      Email
+    </label>
+
+    <br />
+
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      placeholder="Enter email"
+    />
+
+    @if (
+      loginForm.controls.email.touched &&
+      loginForm.controls.email.invalid
+    ) {
+
+      <p>
+        Please enter a valid email.
+      </p>
+
+    }
+
+  </div>
+
+  <br />
+
+  <div>
+
+    <label for="password">
+      Password
+    </label>
+
+    <br />
+
+    <input
+      id="password"
+      type="password"
+      formControlName="password"
+      placeholder="Enter password"
+    />
+
+    @if (
+      loginForm.controls.password.touched &&
+      loginForm.controls.password.invalid
+    ) {
+
+      <p>
+        Password is required.
+      </p>
+
+    }
+
+  </div>
+
+  <br />
+
+  @if (errorMessage) {
+
+    <p>
+      {{ errorMessage }}
+    </p>
+
+  }
+
+  <button
+    type="submit"
+    [disabled]="isLoading">
+
+    @if (isLoading) {
+      Logging in...
+    } @else {
+      Login
+    }
+
+  </button>
+  <div class="register-link">
+
+  <span>
+    New User?
+  </span>
+
+  <a routerLink="/register">
+    Register
+  </a>
+
+</div>
+
+</form>

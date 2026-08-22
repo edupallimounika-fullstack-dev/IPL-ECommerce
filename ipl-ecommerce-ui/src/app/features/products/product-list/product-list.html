@@ -1,0 +1,371 @@
+<div class="products-page">
+
+  <!-- ================================= -->
+  <!-- Header -->
+  <!-- ================================= -->
+
+  <div class="products-header">
+
+    <div>
+
+      <h2>
+        IPL Merchandise
+      </h2>
+
+      <p class="subtitle">
+        Official IPL franchise merchandise
+      </p>
+
+    </div>
+
+    @if (!isLoading()) {
+
+      <span class="product-count">
+        {{ totalCount() }} products
+      </span>
+
+    }
+
+  </div>
+
+
+  <!-- ================================= -->
+  <!-- Search / Filters -->
+  <!-- ================================= -->
+
+  <div class="filter-card">
+
+  <!-- Search -->
+
+  <div class="search-row">
+
+    <input
+      type="text"
+      [(ngModel)]="search"
+      (ngModelChange)="onSearchChange($event)"
+      placeholder="Search products by name..."
+    />
+
+  </div>
+
+
+  <!-- Filters -->
+
+  <div class="filter-row">
+
+    <div class="filter-field">
+
+      <label>
+        Product Type
+      </label>
+
+      <select
+        [(ngModel)]="selectedType"
+        (ngModelChange)="onTypeChange()">
+
+        <option value="">
+          All Types
+        </option>
+
+        @for (
+          type of productTypes;
+          track type
+        ) {
+
+          <option [value]="type">
+            {{ type }}
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+
+    <div class="filter-field">
+
+      <label>
+        Franchise
+      </label>
+
+      <select
+        [(ngModel)]="selectedFranchiseId"
+        (ngModelChange)="onFranchiseChange()">
+
+        <option [ngValue]="undefined">
+          All Franchises
+        </option>
+
+        @for (
+          franchise of franchises;
+          track franchise.id
+        ) {
+
+          <option
+            [ngValue]="franchise.id">
+
+            {{ franchise.name }}
+
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+
+    <div class="clear-filter">
+
+      <button
+        type="button"
+        class="secondary-button"
+        (click)="clearFilters()">
+
+        Clear Filters
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- ================================= -->
+  <!-- Loading -->
+  <!-- ================================= -->
+
+  @if (isLoading()) {
+
+    <div class="loading">
+
+      <p>
+        Loading products...
+      </p>
+
+    </div>
+
+  }
+
+
+  <!-- ================================= -->
+  <!-- Error -->
+  <!-- ================================= -->
+
+  @if (errorMessage()) {
+
+    <div class="error-message">
+
+      {{ errorMessage() }}
+
+    </div>
+
+  }
+
+
+  <!-- ================================= -->
+  <!-- No Products -->
+  <!-- ================================= -->
+
+  @if (
+    !isLoading() &&
+    !errorMessage() &&
+    products().length === 0
+  ) {
+
+    <div class="no-products">
+
+      <h3>
+        No products found
+      </h3>
+
+      <p>
+        Try changing your search or filters.
+      </p>
+
+      <button
+        type="button"
+        (click)="clearFilters()">
+
+        Clear Filters
+
+      </button>
+
+    </div>
+
+  }
+
+
+  <!-- ================================= -->
+  <!-- Product Grid -->
+  <!-- ================================= -->
+
+  @if (
+    !isLoading() &&
+    products().length > 0
+  ) {
+
+    <div class="product-grid">
+
+      @for (
+        product of products();
+        track product.id
+      ) {
+
+        <div class="product-card">
+
+          <!-- Image -->
+
+          <div class="product-image">
+
+            @if (product.imageUrl) {
+
+              <img
+                [src]="
+                  productService.getImageUrl(
+                    product.imageUrl
+                  )
+                "
+                [alt]="product.name"
+              />
+
+            } @else {
+
+              <div class="no-image">
+                No Image
+              </div>
+
+            }
+
+          </div>
+
+
+          <!-- Details -->
+
+          <div class="product-content">
+
+            <h3>
+              {{ product.name }}
+            </h3>
+
+
+            <p class="product-type">
+
+              {{ product.productType }}
+
+            </p>
+
+
+            <p class="franchise">
+
+              {{ product.franchiseName }}
+
+            </p>
+
+
+            <p class="description">
+
+              {{ product.description }}
+
+            </p>
+
+
+            <div class="product-footer">
+
+              <span class="price">
+
+                ₹{{ product.price }}
+
+              </span>
+
+
+              @if (
+                product.stockQuantity > 0
+              ) {
+
+                <span class="stock available">
+                  In Stock
+                </span>
+
+              } @else {
+
+                <span class="stock out-of-stock">
+                  Out of Stock
+                </span>
+
+              }
+
+            </div>
+
+
+            <a
+              [routerLink]="[
+                '/products',
+                product.id
+              ]"
+              class="details-button">
+
+              View Details
+
+            </a>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+
+  <!-- ================================= -->
+  <!-- Pagination -->
+  <!-- ================================= -->
+
+  @if (
+    !isLoading() &&
+    totalPages() > 0
+  ) {
+
+    <div class="pagination">
+
+      <button
+        type="button"
+        [disabled]="pageNumber() <= 1"
+        (click)="previousPage()">
+
+        ← Previous
+
+      </button>
+
+
+      <span>
+
+        Page
+        {{ pageNumber() }}
+        of
+        {{ totalPages() }}
+
+      </span>
+
+
+      <button
+        type="button"
+        [disabled]="
+          pageNumber() >= totalPages()
+        "
+        (click)="nextPage()">
+
+        Next →
+
+      </button>
+
+    </div>
+
+  }
+
+</div>
